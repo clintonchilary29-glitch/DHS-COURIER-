@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DHS Admin Panel</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>DHS Admin Panel</h1>
+</header>
+
+<main class="container">
+  <div id="loginBox">
+    <h2>Admin Login</h2>
+    <input type="password" id="password" placeholder="Enter Admin Password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="adminPanel" style="display:none;">
+    <h2>Tracking Records</h2>
+    <pre id="dataView"></pre>
+  </div>
+</main>
+
+<script>
+const ADMIN_PASSWORD = "dhssecure123";
+
+function login() {
+  const pass = document.getElementById("password").value;
+  if(pass === ADMIN_PASSWORD){
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
+    loadData();
+  } else {
+    alert("Incorrect password");
+  }
+}
+
+function loadData(){
+  fetch('tracking.json')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("dataView").textContent = JSON.stringify(data, null, 2);
+    });
+}
+</script>
+</body>
+</html>
